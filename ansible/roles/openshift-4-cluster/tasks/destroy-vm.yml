@@ -11,7 +11,7 @@
     name: "{{ vm_instance_name }}"
   ignore_errors: yes
 
-- name: delete disks belongs to instance {{ vm_instance_name }}
+- name: Delete disks belongs to instance {{ vm_instance_name }}
   file:
     path: "{{ item }}"
     state: absent

@@ -54,6 +54,8 @@
     vm_memory_size: 16384
     vm_memory_unit: 'MiB'
     vm_root_disk_size: '120G'
+    # Do not create and ocs disk for bootstrapo
+    install_ocs: false
 
 - name: Create master nodes
   include: create-vm.yml

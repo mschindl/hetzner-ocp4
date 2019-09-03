@@ -38,7 +38,7 @@
       <source file='/var/lib/libvirt/images/{{ vm_instance_name }}.qcow2'/>
       <target dev='vda' bus='virtio'/>
     </disk>
-{% if install_ocs == true and not vm_instance_name == 'bootstrap' %}
+{% if install_ocs == true %}
     <disk type='file' device='disk'>
       <driver name='qemu' type='qcow2'/>
       <source file='/var/lib/libvirt/images/{{ vm_instance_name }}-ocs.qcow2'/>

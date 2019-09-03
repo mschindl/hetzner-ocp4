@@ -11,7 +11,7 @@
   command: "qemu-img create -f qcow2 /var/lib/libvirt/images/{{ vm_instance_name }}-ocs.qcow2 {{ ocs_disk_size }}"
   args:
     creates: "/var/lib/libvirt/images/{{ vm_instance_name }}-ocs.qcow2"
-  when: install_ocs == true and not vm_instance_name == 'bootstrap'
+  when: install_ocs == true
 
 - name: Copy ignition {{ vm_instance_name }}
   copy:

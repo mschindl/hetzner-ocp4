@@ -11,12 +11,11 @@
     name: "{{ vm_instance_name }}"
   ignore_errors: yes
 
-- name: Delete disk {{ vm_instance_name }}
+- name: delete disks belongs to instance {{ vm_instance_name }}
   file:
-    path: "/var/lib/libvirt/images/{{ vm_instance_name }}.qcow2"
+    path: "{{ item }}"
     state: absent
-
-- name: Delete ignition {{ vm_instance_name }}
-  file:
-    path: "/var/lib/libvirt/images/{{ vm_instance_name }}.ign"
-    state: absent
+  with_items:
+  - "/var/lib/libvirt/images/{{ vm_instance_name }}.qcow2"
+  - "/var/lib/libvirt/images/{{ vm_instance_name }}-ocs.qcow2"
+  - "/var/lib/libvirt/images/{{ vm_instance_name }}.ign"

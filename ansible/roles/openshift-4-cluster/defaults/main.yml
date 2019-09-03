@@ -68,3 +68,6 @@ storage_nfs_path_prefix: '/var/lib/libvirt/images'
 storage_nfs_target_namespace: openshift-nfs-provisioner
 
 install_ocs: true
+# qemu-img image size specified.
+#   You may use k, M, G, T, P or E suffixe
+ocs_disk_size: 100G

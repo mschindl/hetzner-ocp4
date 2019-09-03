@@ -7,6 +7,12 @@
   args:
     creates: "/var/lib/libvirt/images/{{ vm_instance_name }}.qcow2"
 
+- name: Create disk for OpenShift Container Storage
+  command: "qemu-img create -f qcow2 /var/lib/libvirt/images/{{ vm_instance_name }}-ocs.qcow2 {{ ocs_disk_size }}"
+  args:
+    creates: "/var/lib/libvirt/images/{{ vm_instance_name }}-ocs.qcow2"
+  when: install_ocs == true and not vm_instance_name == 'bootstrap'
+
 - name: Copy ignition {{ vm_instance_name }}
   copy:
     src: "{{ vm_ignition_file }}"

@@ -38,6 +38,13 @@
       <source file='/var/lib/libvirt/images/{{ vm_instance_name }}.qcow2'/>
       <target dev='vda' bus='virtio'/>
     </disk>
+{% if install_ocs == true and not vm_instance_name == 'bootstrap' %}
+    <disk type='file' device='disk'>
+      <driver name='qemu' type='qcow2'/>
+      <source file='/var/lib/libvirt/images/{{ vm_instance_name }}-ocs.qcow2'/>
+      <target dev='vdb' bus='virtio'/>
+    </disk>
+{% endif %}
     <controller type="usb" index="0" model="ich9-ehci1"/>
     <controller type="usb" index="0" model="ich9-uhci1">
       <master startport="0"/>

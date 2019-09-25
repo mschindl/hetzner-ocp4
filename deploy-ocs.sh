@@ -24,6 +24,7 @@ oc create -f https://raw.githubusercontent.com/rook/rook/master/cluster/examples
 
 
 # Create a cephfs (FILE) storage class
+oc create -f https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/filesystem.yaml
 oc create -f https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/csi/cephfs/storageclass.yaml
 # Create a rbd (BLOCK) storage class
 oc create -f https://raw.githubusercontent.com/rook/rook/master/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml
@@ -40,5 +41,24 @@ echo "  Username: admin "
 echo "  Password: $( oc get secrets/rook-ceph-dashboard-password -n rook-ceph  -o jsonpath='{.data.password}' | base64 -d )"
 
 
+echo "Patch the registry...."
+oc create -f - <<EOF
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: registry-storage
+  namespace: openshift-image-registry
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: csi-cephfs
+EOF
+
+oc patch configs.imageregistry.operator.openshift.io cluster \
+  --type='json' \
+  -p='[{"op": "remove", "path": "/spec/storage/emptyDir", },{"op": "add", "path": "/spec/storage/pvc/claim", "value": "registry-storage" }]'
 
 

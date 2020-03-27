@@ -1,5 +1,22 @@
 # RELEASE NOTES
 
+## xxx
+
+### Add possibility to add new worker nodes (#88)
+
+Run playbook:
+```
+./ansible/add-node.yml
+```
+
+Approve pending csr:
+```
+oc get csr
+oc adm certificate approve csr/csr-jjjcb
+```
+
+
+
 ## 2020-04-18
 
 ### Use RBAC instead of changing SCC member for NFS provisioner
@@ -42,6 +59,24 @@ roleRef:
 ```
 
 ## 2020-04-01
+
+### Add possibility to add new worker nodes (#88)
+
+Run playbook:
+```
+./ansible/add-node.yml
+```
+
+Approve pending csr:
+```
+oc get csr
+oc adm certificate approve csr/csr-jjjcb
+```
+
+### Added letsencrypt_disabled switch
+
+This allows you to disable letsencrypt setup. (Default is enabled letsencrypt.)
+>>>>>>> Added possibility to add new worker nodes (#88)
 
 ### Update air-gapped docs 
 

@@ -1,0 +1,58 @@
+#!/usr/bin/env ansible-playbook 
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tags:
+    - vm
+  vars_files:
+  - ../cluster.yml
+  vars:
+    # compute_number: "{{ (all_vms.list_vms | select('match', 'demo-compute') | list | sort)[-1].split('-')[-1] | int + 1 }}"
+    # openshift_install_dir: "{{ playbook_dir }}/../../{{ cluster_name }}"
+
+    # vm_instance_name: "{{ cluster_name }}-compute-{{ compute_number }}"
+    # vm_network: "{{ cluster_name }}"
+    # vm_ignition_file: "{{ openshift_install_dir }}/worker.ign"
+    # vm_mac_address: "52:54:00:{{ '%02x' % vn_subnet.split('.')[1]|int }}:{{ '%02x' % vn_subnet.split('.')[2]|int }}:{{ '%02x' % compute_number|int }}"
+    # vm_vcpu: "{{ compute_vcpu }}"
+    # vm_special_cpu: "{{ compute_special_cpu | default('') }}"
+    # vm_memory_size: "{{ compute_memory_size }}"
+    # vm_memory_unit: "{{ compute_memory_unit }}"
+    # vm_root_disk_size: "{{ compute_root_disk_size }}"
+
+    # # work-a-ground
+    # vn_subnet: "192.168.50.0"
+    # vn_master_count: 3
+
+  tasks:
+  - name: Create compute node
+    import_role:
+      name: ../../ansible/roles/openshift-4-cluster/
+      tasks_from: add-node.yml
+
+  - debug:
+      msg: "Please approve node csr!"
+  # - name: list all VMs
+  #   virt:
+  #     command: list_vms
+  #   register: all_vms
+
+  # - debug:
+  #     msg: "{{ (all_vms.list_vms | select('match', 'demo-compute') | list | sort)[-1].split('-')[-1] | int + 1 }}"
+  # - debug:
+  #     msg: |
+  #       virsh net-update demo add-last ip-dhcp-host '<host mac="{{ vm_mac_address }}" ip="{{ vn_subnet.split('.')[:3] | join('.')}}.{{ 10 + vn_master_count + compute_number }}"/>' --live --config --parent-index 0
+  # # Added with ansible 2.1
+  # - name: "Add compute node to static ip config"
+  #   virt_net:
+  #     name: "{{ cluster_name }}"
+  #     command: modify
+  #     xml: |
+  #       <host mac='{{vm_mac_address}}' name='compute-{{ compute_number }}.compute.local' ip='{{ vn_subnet.split('.')[:3] | join('.')}}.{{ 10 + vn_master_count + compute_number }}' />
+
+
+  # - name: Create compute node
+  #   import_role:
+  #     name: ../../ansible/roles/openshift-4-cluster/
+  #     tasks_from: create-vm.yml

@@ -1,0 +1,35 @@
+---
+- name: Get all VMs
+  virt:
+    command: list_vms
+  register: all_vms
+
+- name: Build regexp
+  set_fact:
+    regexp: "{{ cluster_name }}-compute"
+
+- name: Build compute_number
+  set_fact:
+    compute_number: "{{ (all_vms.list_vms | select('match', regexp) | list | sort)[-1].split('-')[-1] | int + 1 }}"
+
+- name: Build vm_*
+  set_fact:
+    vm_instance_name: "{{ cluster_name }}-compute-{{ compute_number }}"
+    vm_network: "{{ cluster_name }}"
+    vm_ignition_file: "{{ openshift_install_dir }}/worker.ign"
+    vm_mac_address: "52:54:00:{{ '%02x' % vn_subnet.split('.')[1]|int }}:{{ '%02x' % vn_subnet.split('.')[2]|int }}:{{ '%02x' % compute_number|int }}"
+    vm_vcpu: "{{ compute_vcpu }}"
+    vm_special_cpu: "{{ compute_special_cpu | default('') }}"
+    vm_memory_size: "{{ compute_memory_size }}"
+    vm_memory_unit: "{{ compute_memory_unit }}"
+    vm_root_disk_size: "{{ compute_root_disk_size }}"
+
+- name: "Add compute node to static dhcp config"
+  virt_net:
+    name: "{{ cluster_name }}"
+    command: modify
+    xml: |
+      <host mac='{{vm_mac_address}}' name='compute-{{ compute_number }}.compute.local' ip='{{ vn_subnet.split('.')[:3] | join('.')}}.{{ 10 + master_count|int + compute_number|int }}' />
+
+- name: Create compute node
+  include: create-vm.yml

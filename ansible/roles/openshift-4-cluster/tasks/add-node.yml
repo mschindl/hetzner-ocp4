@@ -7,10 +7,12 @@
 - name: Build regexp
   set_fact:
     regexp: "{{ cluster_name }}-compute"
+    compute_number: 0
 
 - name: Build compute_number
   set_fact:
     compute_number: "{{ (all_vms.list_vms | select('match', regexp) | list | sort)[-1].split('-')[-1] | int + 1 }}"
+  when: ( all_vms.list_vms | select('match', regexp) | list | length > 0 )
 
 - name: Build vm_*
   set_fact:

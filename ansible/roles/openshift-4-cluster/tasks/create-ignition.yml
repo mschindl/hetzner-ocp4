@@ -14,7 +14,45 @@
     dest: "{{ openshift_install_dir }}/install-config.yaml.original"
     src: "{{ openshift_install_dir }}/install-config.yaml"
 
+- name: Create manifests files
+  command: "{{ openshift_install_command }} --dir={{ openshift_install_dir }} create manifests"
+  args:
+    creates: "{{ openshift_install_dir}}/.openshift_install_state.json"
+
+- name: Check bootstrap.ign
+  stat:
+    path: "{{ openshift_install_dir}}/bootstrap.ign"
+  register: check_bootstrap
+
+- name: Switch to OVN
+  block:
+  - name: Copy cluster-network-02-config.yml
+    copy:
+      src: "{{ openshift_install_dir }}/manifests/cluster-network-02-config.yml"
+      dest: "{{ openshift_install_dir }}/manifests/cluster-network-03-config.yml"
+
+  - name: Replace apiVersion
+    replace:
+      path: "{{ openshift_install_dir }}/manifests/cluster-network-03-config.yml"
+      regexp: 'config.openshift.io\/v1'
+      replace: 'operator.openshift.io\/v1'
+
+  # Important for WindowsWorker 
+  - name: Add hybridOverlayConfig
+    lineinfile:
+      path: "{{ openshift_install_dir }}/manifests/cluster-network-03-config.yml"
+      insertbefore: "status: {}"
+      line: |2
+          defaultNetwork:
+            type: OVNKubernetes
+            ovnKubernetesConfig:
+              hybridOverlayConfig:
+                hybridClusterNetwork:
+                - cidr: 10.132.0.0/14
+                  hostPrefix: 23
+  when: not check_bootstrap.stat.exists
+
 - name: Create ignition files
   command: "{{ openshift_install_command }} --dir={{ openshift_install_dir }} create ignition-configs"
   args:
-    creates: "{{ openshift_install_dir}}/.openshift_install_state.json"
+    creates: "{{ openshift_install_dir}}/bootstrap.ign"

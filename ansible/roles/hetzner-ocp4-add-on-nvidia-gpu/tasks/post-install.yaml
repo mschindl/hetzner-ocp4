@@ -1,0 +1,4 @@
+---
+- name: GPU Post install
+  debug:
+    msg: "Kubeconfig: {{ kubeconfig }}"

@@ -17,7 +17,7 @@
     vm_instance_name: "{{ cluster_name }}-bootstrap"
 
 - name: Start background node approver process
-  async: 1800   #   30 minutes              
+  async: 1800   #   30 minutes
   poll: 0
   shell: |
     while true
@@ -218,6 +218,13 @@
   tags:
     - post-install
     - rolebindings
+
+###########################################################################################
+# Handle post-install-add-ons
+###########################################################################################
+
+- name: Include post-install-add-ons
+  include: post-install-add-ons.yml
 
 ###########################################################################################
 # Print Cluster informations

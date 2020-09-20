@@ -1,0 +1,11 @@
+---
+
+- name: "Set kubeconfig"
+  set_fact:
+    kubeconfig: "{{ openshift_install_dir }}/auth/kubeconfig"
+
+- name: "Handle post_install_add_ons"
+  include_role:
+    name: "hetzner-ocp4-add-on-{{ item.key }}"
+    tasks_from: "{{ item.value }}"
+  with_dict: "{{ post_install_add_ons | default ({}) }}"

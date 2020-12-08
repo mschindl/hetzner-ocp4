@@ -1,28 +1,3 @@
-# Modification to integrate OCS OpenShift Container Storage (lite)
-
-Hardware used:
-CPU1: Intel® Xeon® CPU E5-1650 v3 @ 3.50GHz (Cores 12)
-Memory: 257655 MB
-Disk /dev/sda: 480 GB (=> 447 GiB)
-Disk /dev/sdb: 480 GB (=> 447 GiB)
-Total capacity 894 GiB with 2 Disks
-
-# Modified files
-```
-# cd ./hetzner-ocp4-ocs4
-# vi ansible/roles/openshift-4-cluster/defaults/main.yml
-# vi ansible/roles/openshift-4-cluster/tasks/create-vm.yml
-# vi ansible/roles/openshift-4-cluster/tasks/create.yml
-# vi ansible/roles/openshift-4-cluster/templates/vm.xml.j2
-```
-Additional information for OCS installation:
-https://source.redhat.com/communitiesatredhat/applications/containers-paas-community/blog/container_community_of_practice_blog/ocs_42_in_ocp_4214_upi_installation_in_rhv
-
-
-
-
----
-
 # Disclaimer
 This environment has been created for the sole purpose of providing an easy to deploy and consume a Red Hat OpenShift Container Platform 4 environment *as a sandpit*.
 

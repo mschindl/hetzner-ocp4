@@ -24,7 +24,7 @@ Our instructions are based on the CentOS Root Server as provided by https://www.
 
 **These instructions are for running CentOS and 'root' machines which is setup following [Hetzner CentOS](docs/hetzner.md) documentation. You might have to modify commands if running on another Linux distro.  Feel free to provided instructions for providers.**
 
-**NOTE: If you are running on other environments than bare metal servers from Hetzner, check if there is specific instruction under Infra providers list and then jump to section [Initialize tools](https://github.com/RedHat-EMEA-SSA-Team/hetzner-ocp4#initialize-tools)   
+**NOTE: If you are running on other environments than bare metal servers from Hetzner, check if there is specific instruction under Infra providers list and then jump to section [Initialize tools](https://github.com/RedHat-EMEA-SSA-Team/hetzner-ocp4#initialize-tools)
 
 ** Supported root server operating systems: **
 - CentOS 8
@@ -50,7 +50,7 @@ subscription-manager repos --disable=*
 subscription-manager repos \
     --enable="rhel-7-server-rpms" \
     --enable="rhel-7-server-extras-rpms" \
-    --enable="rhel-7-server-ansible-2.8-rpms" \
+    --enable="rhel-7-server-ansible-2.9-rpms" \
     --enable="rhel-7-server-ose-4.2-rpms" \
     --enable="rhel-7-server-openstack-14-rpms"
 ```
@@ -105,7 +105,7 @@ Here is an example about [_cluster.yml_](cluster-example.yml) file that contains
 |cluster_name  |Name of the cluster to be installed |
 |public_domain  |Root domain that will be used for your cluster.  |
 |public_ip  |Override for public ip entries. defaults to `hostvars['localhost']['ansible_default_ipv4']['address']`. |
-|dns_provider  |DNS provider, value can be _route53_, _cloudflare_,_gcp_ or _none_. Check __Setup public DNS records__ for more info. |
+|dns_provider  |DNS provider, value can be _route53_, _cloudflare_, _gcp_, _azure_ or _none_. Check __Setup public DNS records__ for more info. |
 |letsencrypt_account_email  |Email address that is used to create LetsEncrypt certs. If _cloudflare_account_email_ is not present for CloudFlare DNS recods, _letsencrypt_account_email_ is also used with CloudFlare DNS account email |
 |image_pull_secret|Token to be used to authenticate to the Red Hat image registry. You can download your pull secret from https://cloud.redhat.com/openshift/install/metal/user-provisioned |
 
@@ -124,7 +124,7 @@ DNS records are constructed based on _cluster_name_ and _public_domain_ values. 
 
 If you use another DNS provider, feel free to contribute. :D
 
-With `dns_provider: none` the playbooks will not create public dns entries. (It will skip letsencrypt too) Please create public dns entries if you want to access your cluster. 
+With `dns_provider: none` the playbooks will not create public dns entries. (It will skip letsencrypt too) Please create public dns entries if you want to access your cluster.
 
 Please configure in `cluster.yml` all necessary credentials:
 
@@ -133,6 +133,7 @@ Please configure in `cluster.yml` all necessary credentials:
 |CloudFlare|`cloudflare_account_email: john@example.com` <br> Use the global api key here! (API-Token is not supported!) (Details in #86) <br>`cloudflare_account_api_token: 9348234sdsd894.....` <br>  `cloudflare_zone: domain.tld`|
 |Route53 / AWS|`aws_access_key: key` <br/>`aws_secret_key: secret` <br/>`aws_zone: domain.tld` <br/>|
 |GCP|`gcp_project: project-name `<br/>`gcp_managed_zone_name: 'zone-name'`<br/>`gcp_managed_zone_domain: 'example.com.'`<br/>`gcp_serviceaccount_file: ../gcp_service_account.json` |
+|Azure|`azure_client_id: 'client_id'`<br/>`azure_secret: 'key'`<br/>`azure_subscription_id: 'subscription_id'`<br/>`azure_tenant: 'tenant_id'`<br/>`azure_resource_group: 'dns_zone_resource_group'` |
 |none|With `dns_provider: none` the playbooks will not create public dns entries. (It will skip letsencrypt too) Please create public dns entries if you want to access your cluster.|
 
 ### Optional configuration
@@ -149,6 +150,7 @@ Please configure in `cluster.yml` all necessary credentials:
 |`install_config_additionalTrustBundle`|empty|Important for air-gapped installation. checkout [docs/air-gapped.md](docs/air-gapped.md)
 |`install_config_imageContentSources`|empty|Important for air-gapped installation. checkout [docs/air-gapped.md](docs/air-gapped.md)
 |`letsencrypt_disabled`|`false`|This allows you to disable letsencrypt setup. (Default is enabled letsencrypt.)
+|`sdn_plugin_name`|`OVNKubernetes`|This allows you to change SDN plugin. Valid values are OpenShiftSDN and OVNKubernetes. (Default is OVNKubernetes.)
 
 ## Prepare kvm-host and install OpenShift
 
@@ -166,6 +168,7 @@ Please configure in `cluster.yml` all necessary credentials:
 * [How to install an OpenShift nighly or RC (any kind of pre-release)](docs/ocp-pre-release.md)
 * [Disk management (add disk to vm, wipe node)](docs/disk-management.md)
 * [How to passthrough nvme or gpu (pci-passthrough](docs/pci-passthrough.md)
+* [How to install OKD](docs/how-to-install-okd.md)
 
 # Useful commands
 

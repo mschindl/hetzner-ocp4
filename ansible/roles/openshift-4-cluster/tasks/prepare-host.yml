@@ -26,10 +26,14 @@
     path: /etc/systemd/network/10-mainif.network
   register: stat_result
 
-- name:
+- name: Add IPForward=ipv4 to /etc/systemd/network/10-mainif.network
   lineinfile:
     path: /etc/systemd/network/10-mainif.network
     line: 'IPForward=ipv4'
     insertafter: '^\[Network\]'
     regexp: '^IPForward='
   when: stat_result.stat.exists == True
+
+- name: Install Azure Ansible pip dependencies
+  pip:
+    name: ['packaging', 'msrest', 'msrestazure', 'azure.common', 'azure.mgmt', 'azure.storage', 'azure.mgmt.automation']

@@ -24,7 +24,7 @@
 
     le_letsencrypt_account_email: "{{ letsencrypt_account_email | default(cloudflare_account_email)}}"
 
-    le_cloudflare_account_email: "{{ cloudflare_account_email }}"
+    le_cloudflare_account_email: "{{ cloudflare_account_email | default(letsencrypt_account_email)}}"
     le_cloudflare_account_api_token: "{{ cloudflare_account_api_token }}"
     le_cloudflare_zone: "{{ cloudflare_zone }}"
 
@@ -36,6 +36,13 @@
     le_gcp_serviceaccount_file: "{{ gcp_serviceaccount_file }}"
     le_gcp_managed_zone_name: "{{ gcp_managed_zone_name }}"
     le_gcp_managed_zone_domain: "{{ gcp_managed_zone_domain }}"
+
+    le_azure_client_id: "{{ azure_client_id }}"
+    le_azure_secret: "{{ azure_secret }}"
+    le_azure_subscription_id: "{{ azure_subscription_id }}"
+    le_azure_tenant: "{{ azure_tenant }}"
+    le_azure_resource_group:  "{{ azure_resource_group }}"
+    
   tags: letsencrypt
   when: letsencrypt_disabled == false
 

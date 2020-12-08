@@ -1,5 +1,5 @@
 # Modified for OCS OpenShift Container Storage installation
-https://github.com/mschindl/hetzner-ocp4-ocs4/blob/master/README-Mod-OCS.md
+[Installation und Configuration Guide of modified OCS integration](README-Mod-OCS.md)
 
 ---
 # Disclaimer

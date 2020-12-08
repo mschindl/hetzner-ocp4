@@ -189,3 +189,22 @@ EOF
 
 # oc create -f ocs-cluster-service.yml
 ```
+![image](https://user-images.githubusercontent.com/26382876/101491903-9688e980-3964-11eb-858c-b9cb0b4a5ccc.png)
+![image](https://user-images.githubusercontent.com/26382876/101492097-d059f000-3964-11eb-8d96-cde534523b20.png)
+
+# Access to Noobaa Management WebUI:
+
+```
+Create an OCP group named cluster-admin from the OCP UI or by running the following command:
+# oc adm groups new cluster-admins
+
+Bind the group to the cluster-admin role:
+ # oc adm policy add-cluster-role-to-group cluster-admin cluster-admins
+ 
+A set of users can be added to the group by running the following command:
+# oc adm groups add-users cluster-admins admin user@corp.com
+
+A set of users can be removed from the group by running the following command:
+# oc adm groups remove-users cluster-admins [user-name] [user-name] [user-name]...
+```
+![image](https://user-images.githubusercontent.com/26382876/101500502-db198280-396e-11eb-9bc4-114b95cbb19d.png)

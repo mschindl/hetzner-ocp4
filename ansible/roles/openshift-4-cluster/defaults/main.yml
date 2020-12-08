@@ -12,15 +12,16 @@ listen_address: "{{ hostvars['localhost']['ansible_default_ipv4']['address'] }}"
 
 master_count: 3
 master_vcpu: 4
-master_memory_size: 16384
+master_memory_size: 32768
 master_memory_unit: 'MiB'
 # qemu-img image size specified.
 #   You may use k, M, G, T, P or E suffixe
 master_root_disk_size: '120G'
 
 compute_count: 3
-compute_vcpu: 2
-compute_memory_size: 8192
+#compute_vcpu: 2
+compute_vcpu: 8
+compute_memory_size: 65536
 compute_memory_unit: 'MiB'
 # qemu-img image size specified.
 #   You may use k, M, G, T, P or E suffixe
@@ -31,7 +32,7 @@ vm_autostart: false
 # Important: OpenShift version must match to RHEL CoreOS version!
 
 # reference to OpenShift version
-openshift_version: 4.6.1
+openshift_version: 4.6.6
 openshift_install_command: "/opt/openshift-install-{{ openshift_version }}/openshift-install"
 # dev-pre:
 # https://mirror.openshift.com/pub/openshift-v4/clients/ocp-dev-preview
@@ -70,6 +71,13 @@ helm_cli_location: "https://mirror.openshift.com/pub/openshift-v4/clients/helm/l
 storage_nfs: false
 storage_nfs_path_prefix: '/var/lib/libvirt/images'
 storage_nfs_target_namespace: openshift-nfs-provisioner
+
+# OCS disks
+install_ocs: true
+# qemu-img image size specified.
+# #   You may use k, M, G, T, P or E suffixe
+ocs_disk_size_1: 10G
+ocs_disk_size_2: 100G
 
 # sdn plugin
 sdn_plugin_name: OVNKubernetes

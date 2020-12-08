@@ -1,3 +1,7 @@
+# Modified for OCS OpenShift Container Storage installation
+https://github.com/mschindl/hetzner-ocp4-ocs4/blob/master/README-Mod-OCS.md
+
+---
 # Disclaimer
 This environment has been created for the sole purpose of providing an easy to deploy and consume a Red Hat OpenShift Container Platform 4 environment *as a sandpit*.
 

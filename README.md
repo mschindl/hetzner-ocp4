@@ -16,7 +16,7 @@ Total capacity 894 GiB with 2 Disks
 # vi ansible/roles/openshift-4-cluster/templates/vm.xml.j2
 ```
 
-###
+---
 
 # Disclaimer
 This environment has been created for the sole purpose of providing an easy to deploy and consume a Red Hat OpenShift Container Platform 4 environment *as a sandpit*.

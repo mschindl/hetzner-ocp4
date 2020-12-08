@@ -12,7 +12,19 @@
     src: "{{ vm_ignition_file }}"
     dest: "/var/lib/libvirt/images/{{ vm_instance_name }}.ign"
     mode: '0644'
-  
+
+- name: Create disk for OpenShift Container Storage 10GB
+  command: "qemu-img create -f qcow2 /var/lib/libvirt/images/{{ vm_instance_name }}-ocs-1.qcow2 {{ ocs_disk_size_1 }}"
+  args:
+    creates: "/var/lib/libvirt/images/{{ vm_instance_name }}-ocs-1.qcow2"
+  when: install_ocs == true
+
+- name: Create disk for OpenShift Container Storage 100GB
+  command: "qemu-img create -f qcow2 /var/lib/libvirt/images/{{ vm_instance_name }}-ocs-2.qcow2 {{ ocs_disk_size_2 }}"
+  args:
+    creates: "/var/lib/libvirt/images/{{ vm_instance_name }}-ocs-2.qcow2"
+  when: install_ocs == true
+
 # - name: Debug - create /tmp/{{ vm_instance_name }}.virt.xml
 #   template:
 #     src: "vm.xml.j2"

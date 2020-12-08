@@ -67,6 +67,7 @@
     vm_memory_size: 16384
     vm_memory_unit: 'MiB'
     vm_root_disk_size: '120G'
+    install_ocs: false
 
 - name: Create master nodes
   include: create-vm.yml
@@ -80,6 +81,7 @@
     vm_memory_size: "{{ master_memory_size }}"
     vm_memory_unit: "{{ master_memory_unit }}"
     vm_root_disk_size: "{{ master_root_disk_size }}"
+    install_ocs: false
   with_sequence: start=0 end="{{ master_count|int - 1 }}" stride=1
 
 - name: Create compute node

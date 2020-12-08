@@ -115,3 +115,77 @@ oc label node compute-2 "topology.rook.io/rack=rack3" --overwrite
 # Install OCS Operator
 ![image](https://user-images.githubusercontent.com/26382876/101485266-36417a00-395b-11eb-921a-656f67732160.png)
 ![image](https://user-images.githubusercontent.com/26382876/101485382-5f620a80-395b-11eb-99ad-6f0bdc7eb572.png)
+
+## Create first cluster service
+```
+# cat <<EOF > ocs-cluster-service.yml
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-storagecluster
+  namespace: openshift-storage
+spec:
+  manageNodes: false
+  resources:
+    mds:
+      requests:
+        cpu: "0.5"
+        memory: 4Gi
+    mgr:
+      requests:
+        cpu: "0.5"
+        memory: 2Gi
+    osd:
+      limits:
+        cpu: "0.5"
+        memory: 4Gi
+      requests:
+        cpu: "0.5"
+        memory: 4Gi
+    rgw:
+      limits:
+        cpu: "0.5"
+        memory: 3Gi
+      requests:
+        cpu: "0.5"
+        memory: 3Gi
+    noobaa-core:
+      limits:
+        cpu: "0.5"
+      requests:
+        cpu: "0.5"
+    noobaa-db:
+      limits:
+        cpu: "0.5"
+      requests:
+        cpu: "0.5"
+  monPVCTemplate:
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+      storageClassName: 'local-sc'
+      volumeMode: Filesystem
+  storageDeviceSets:
+  - count: 1
+    dataPVCTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Gi
+        storageClassName: 'localblock-sc'
+        volumeMode: Block
+    name: ocs-deviceset
+    placement: {}
+    portable: true
+    replica: 3
+    resources: {}
+EOF
+
+
+# oc create -f ocs-cluster-service.yml
+```

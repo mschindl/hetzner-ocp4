@@ -92,5 +92,6 @@ A set of users can be removed from the group by running the following command:
 
 # Looks good ;)
 ![image](https://user-images.githubusercontent.com/26382876/101627315-761d6580-3a1e-11eb-898e-c0e52d8c2e15.png)
-![image](https://user-images.githubusercontent.com/26382876/101627384-95b48e00-3a1e-11eb-9bb8-eee60445a7bb.png)
+![image](https://user-images.githubusercontent.com/26382876/101627857-4327a180-3a1f-11eb-9ed0-e57199b1f6ad.png)
+
 

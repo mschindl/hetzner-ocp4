@@ -67,6 +67,7 @@ oc label node compute-2 "topology.rook.io/rack=rack3" --overwrite
 ![image](https://user-images.githubusercontent.com/26382876/101485382-5f620a80-395b-11eb-99ad-6f0bdc7eb572.png)
 
 ## Create first cluster service
+```
 oc create -f ocs/03-ocs-cluster-service-reduced-res.yml
 ```
 ![image](https://user-images.githubusercontent.com/26382876/101491903-9688e980-3964-11eb-858c-b9cb0b4a5ccc.png)
@@ -79,7 +80,7 @@ Create an OCP group named cluster-admin from the OCP UI or by running the follow
 # oc adm groups new cluster-admins
 
 Bind the group to the cluster-admin role:
- # oc adm policy add-cluster-role-to-group cluster-admin cluster-admins
+# oc adm policy add-cluster-role-to-group cluster-admin cluster-admins
  
 A set of users can be added to the group by running the following command:
 # oc adm groups add-users cluster-admins admin user@corp.com

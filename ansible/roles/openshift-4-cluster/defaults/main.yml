@@ -12,7 +12,7 @@ listen_address: "{{ hostvars['localhost']['ansible_default_ipv4']['address'] }}"
 
 master_count: 3
 master_vcpu: 4
-master_memory_size: 32768
+master_memory_size: 16384
 master_memory_unit: 'MiB'
 # qemu-img image size specified.
 #   You may use k, M, G, T, P or E suffixe

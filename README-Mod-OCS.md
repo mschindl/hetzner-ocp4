@@ -42,62 +42,12 @@ NAME                                      READY   STATUS    RESTARTS   AGE
 local-storage-operator-56c7f9d6fb-8zndx   1/1     Running   0          12m
 ```
 
-## Create file and block
-```
-# cat <<EOF > local-storage-filesystem.yaml 
-apiVersion: "local.storage.openshift.io/v1"
-kind: "LocalVolume"
-metadata:
-  name: "local-disks-fs"
-  namespace: "openshift-local-storage"
-spec:
-  nodeSelector:
-    nodeSelectorTerms:
-    - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - compute-0
-          - compute-1
-          - compute-2
-  storageClassDevices:
-    - storageClassName: "local-sc"
-      volumeMode: Filesystem
-      devicePaths:
-        - /dev/vdb
-EOF
-```
- 
-```
-# cat <<EOF > local-storage-block.yaml
-apiVersion: "local.storage.openshift.io/v1"
-kind: "LocalVolume"
-metadata:
-  name: "local-disks"
-  namespace: "openshift-local-storage"
-spec:
-  nodeSelector:
-    nodeSelectorTerms:
-    - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - compute-0
-          - compute-1
-          - compute-2
-  storageClassDevices:
-    - storageClassName: "localblock-sc"
-      volumeMode: Block
-      devicePaths:
-        - /dev/vdc
-EOF
-```
 
 # Create storage classes
 ```
-# oc create -f local-storage-block.yaml
+# oc create -f ocs/local-storage-block.yml
 localvolume.local.storage.openshift.io/local-disks created
-# oc create -f local-storage-filesystem.yaml 
+# oc create -f ocs/local-storage-filesystem.yml 
 localvolume.local.storage.openshift.io/local-disks-fs created
 ```
 ![image](https://user-images.githubusercontent.com/26382876/101485118-fbd7dd00-395a-11eb-857c-169c665f5d92.png)
@@ -117,77 +67,7 @@ oc label node compute-2 "topology.rook.io/rack=rack3" --overwrite
 ![image](https://user-images.githubusercontent.com/26382876/101485382-5f620a80-395b-11eb-99ad-6f0bdc7eb572.png)
 
 ## Create first cluster service
-```
-# cat <<EOF > ocs-cluster-service.yml
-apiVersion: ocs.openshift.io/v1
-kind: StorageCluster
-metadata:
-  name: ocs-storagecluster
-  namespace: openshift-storage
-spec:
-  manageNodes: false
-  resources:
-    mds:
-      requests:
-        cpu: "0.5"
-        memory: 4Gi
-    mgr:
-      requests:
-        cpu: "0.5"
-        memory: 2Gi
-    osd:
-      limits:
-        cpu: "0.5"
-        memory: 4Gi
-      requests:
-        cpu: "0.5"
-        memory: 4Gi
-    rgw:
-      limits:
-        cpu: "0.5"
-        memory: 3Gi
-      requests:
-        cpu: "0.5"
-        memory: 3Gi
-    noobaa-core:
-      limits:
-        cpu: "0.5"
-      requests:
-        cpu: "0.5"
-    noobaa-db:
-      limits:
-        cpu: "0.5"
-      requests:
-        cpu: "0.5"
-  monPVCTemplate:
-    spec:
-      accessModes:
-      - ReadWriteOnce
-      resources:
-        requests:
-          storage: 10Gi
-      storageClassName: 'local-sc'
-      volumeMode: Filesystem
-  storageDeviceSets:
-  - count: 1
-    dataPVCTemplate:
-      spec:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 100Gi
-        storageClassName: 'localblock-sc'
-        volumeMode: Block
-    name: ocs-deviceset
-    placement: {}
-    portable: true
-    replica: 3
-    resources: {}
-EOF
-
-
-# oc create -f ocs-cluster-service.yml
+oc create -f ocs/03-ocs-cluster-service-reduced-res.yml
 ```
 ![image](https://user-images.githubusercontent.com/26382876/101491903-9688e980-3964-11eb-858c-b9cb0b4a5ccc.png)
 ![image](https://user-images.githubusercontent.com/26382876/101492097-d059f000-3964-11eb-8d96-cde534523b20.png)
@@ -208,3 +88,8 @@ A set of users can be removed from the group by running the following command:
 # oc adm groups remove-users cluster-admins [user-name] [user-name] [user-name]...
 ```
 ![image](https://user-images.githubusercontent.com/26382876/101500502-db198280-396e-11eb-9bc4-114b95cbb19d.png)
+
+# Looks good ;)
+![image](https://user-images.githubusercontent.com/26382876/101627315-761d6580-3a1e-11eb-898e-c0e52d8c2e15.png)
+![image](https://user-images.githubusercontent.com/26382876/101627384-95b48e00-3a1e-11eb-9bb8-eee60445a7bb.png)
+

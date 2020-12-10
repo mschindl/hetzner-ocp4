@@ -1,4 +1,4 @@
-# Modified for OCS OpenShift Container Storage installation
+# Modified OCS OpenShift Container Storage installation to run on a single physical server
 [Installation und Configuration Guide of modified OCS integration](README-Mod-OCS.md)
 
 ---

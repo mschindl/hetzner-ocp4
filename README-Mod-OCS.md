@@ -94,4 +94,65 @@ A set of users can be removed from the group by running the following command:
 ![image](https://user-images.githubusercontent.com/26382876/101627315-761d6580-3a1e-11eb-898e-c0e52d8c2e15.png)
 ![image](https://user-images.githubusercontent.com/26382876/101627857-4327a180-3a1f-11eb-9ed0-e57199b1f6ad.png)
 
+# Manually expansion with one additional vdisk
+Expand virtual machines up to 12 vCPU + 80GB mem in the compute/worker and after that it's allowed to expand  OCS with 100GB disks per worker node.
+```
+# virsh list --all
+setlocale: No such file or directory
+ Id   Name                      State
+-----------------------------------------
+ 2    mschindl-ocp4-master-0    running
+ 3    mschindl-ocp4-master-1    running
+ 4    mschindl-ocp4-master-2    running
+ 5    mschindl-ocp4-compute-0   running
+ 6    mschindl-ocp4-compute-1   running
+ 7    mschindl-ocp4-compute-2   running
 
+# cd /var/lib/libvirt/images/
+# qemu-img create -f qcow2 /var/lib/libvirt/images/mschindl-ocp4-compute-0-ocs-4ex.qcow2 100G
+# qemu-img create -f qcow2 /var/lib/libvirt/images/mschindl-ocp4-compute-1-ocs-4ex.qcow2 100G
+# qemu-img create -f qcow2 /var/lib/libvirt/images/mschindl-ocp4-compute-2-ocs-4ex.qcow2 100G
+Formatting '/var/lib/libvirt/images/mschindl-ocp4-compute-3-ocs-3ex.qcow2', fmt=qcow2 size=107374182400 cluster_size=65536 lazy_refcounts=off refcount_bits=16
+
+# for i in {3..5} ; do ssh core@192.168.50.1${i} lsblk | egrep "^vdb.*|vdc.*$|vdd.*$" ; done
+
+# for i in {3..5} ; do ssh core@192.168.50.1${i} sudo fdisk -l | grep '^Disk /dev/vd[a-z]' ; done
+Disk /dev/vda: 120 GiB, 128849018880 bytes, 251658240 sectors
+Disk /dev/vdb: 10 GiB, 10737418240 bytes, 20971520 sectors
+Disk /dev/vdc: 100 GiB, 107374182400 bytes, 209715200 sectors
+Disk /dev/vdd: 100 GiB, 107374182400 bytes, 209715200 sectors
+
+# # virsh attach-disk mschindl-ocp4-compute-0 \
+--source /var/lib/libvirt/images/mschindl-ocp4-compute-0-ocs-4ex.qcow2 \
+--target vdd \
+--persistent \
+--subdriver qcow2 \
+--driver qemu \
+--type disk
+  
+# virsh attach-disk mschindl-ocp4-compute-1 \
+--source /var/lib/libvirt/images/mschindl-ocp4-compute-1-ocs-4ex.qcow2 \
+--target vdd \
+--persistent \
+--subdriver qcow2 \
+--driver qemu \
+--type disk
+
+# virsh attach-disk mschindl-ocp4-compute-2 \
+--source /var/lib/libvirt/images/mschindl-ocp4-compute-2-ocs-4ex.qcow2 \
+--target vdd \
+--persistent \
+--subdriver qcow2 \
+--driver qemu \
+--type disk
+
+hetzner-ocp4-ocs4]# ansible-playbook ansible/03-stop-cluster.ym
+
+virsh edit <vm-compute-0>
+
+  <memory unit='KiB'>83886080</memory>
+  <currentMemory unit='KiB'>83886080</currentMemory>
+  <vcpu placement='static'>12</vcpu>
+
+hetzner-ocp4-ocs4]# ansible-playbook ansible/04-start-cluster.yml
+```

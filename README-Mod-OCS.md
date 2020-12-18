@@ -1,11 +1,12 @@
 # Modification to integrate OCS OpenShift Container Storage (lite)
-
+```
 Hardware used:
 CPU1: Intel® Xeon® CPU E5-1650 v3 @ 3.50GHz (Cores 12)
 Memory: 257655 MB
 Disk /dev/sda: 480 GB (=> 447 GiB)
 Disk /dev/sdb: 480 GB (=> 447 GiB)
-Total capacity 894 GiB with 2 Disks
+Total capacity 894 GiB with 2 Disks as stripe in LVM
+```
 
 # Modified files
 ```
@@ -146,13 +147,13 @@ Disk /dev/vdd: 100 GiB, 107374182400 bytes, 209715200 sectors
 --driver qemu \
 --type disk
 
-hetzner-ocp4-ocs4]# ansible-playbook ansible/03-stop-cluster.ym
+# hetzner-ocp4-ocs4]# ansible-playbook ansible/03-stop-cluster.ym
 
-virsh edit <vm-compute-0>
+# virsh edit <vm-compute-0>
 
   <memory unit='KiB'>83886080</memory>
   <currentMemory unit='KiB'>83886080</currentMemory>
   <vcpu placement='static'>12</vcpu>
 
-hetzner-ocp4-ocs4]# ansible-playbook ansible/04-start-cluster.yml
+# hetzner-ocp4-ocs4]# ansible-playbook ansible/04-start-cluster.yml
 ```

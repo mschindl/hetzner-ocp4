@@ -1,3 +1,5 @@
+Issue 1 : After using ansible-playbook ansible/99-destroy-cluster.yml empty following folder -> /var/lib/libvirt/images
+
 # Modification to integrate OCS OpenShift Container Storage (lite)
 ```
 Hardware used:

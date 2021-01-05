@@ -59,6 +59,7 @@ local-storage-operator-56c7f9d6fb-8zndx   1/1     Running   0          12m
 localvolume.local.storage.openshift.io/local-disks created
 # oc create -f ocs/02-local-storage-filesystem.yml 
 localvolume.local.storage.openshift.io/local-disks-fs created
+# oc get pod -n openshift-local-storage
 ```
 ![image](https://user-images.githubusercontent.com/26382876/101485118-fbd7dd00-395a-11eb-857c-169c665f5d92.png)
 

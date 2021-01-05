@@ -19,8 +19,7 @@ master_memory_unit: 'MiB'
 master_root_disk_size: '120G'
 
 compute_count: 3
-#compute_vcpu: 2
-compute_vcpu: 12
+compute_vcpu: 10
 compute_memory_size: 65536
 compute_memory_unit: 'MiB'
 # qemu-img image size specified.
@@ -78,6 +77,7 @@ install_ocs: true
 # #   You may use k, M, G, T, P or E suffixe
 ocs_disk_size_1: 10G
 ocs_disk_size_2: 100G
+#ocs_disk_size_3: 100G
 
 # sdn plugin
 sdn_plugin_name: OVNKubernetes

@@ -20,3 +20,13 @@
   file:
     path: "/var/lib/libvirt/images/{{ vm_instance_name }}.ign"
     state: absent
+
+- name: Delete OpenShift Container Storage 10GB {{ vm_instance_name }}
+  file:
+    path: "/var/lib/libvirt/images/{{ vm_instance_name }}-ocs-1.qcow2"
+    state: absent
+
+- name: Delete OpenShift Container Storage 100GB {{ vm_instance_name }}
+  file:
+    path: "/var/lib/libvirt/images/{{ vm_instance_name }}-ocs-2.qcow2"
+    state: absent

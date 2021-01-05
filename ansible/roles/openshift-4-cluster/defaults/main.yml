@@ -77,7 +77,6 @@ install_ocs: true
 # #   You may use k, M, G, T, P or E suffixe
 ocs_disk_size_1: 10G
 ocs_disk_size_2: 100G
-#ocs_disk_size_3: 100G
 
 # sdn plugin
 sdn_plugin_name: OVNKubernetes

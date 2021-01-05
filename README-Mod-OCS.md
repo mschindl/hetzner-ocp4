@@ -19,6 +19,12 @@ Total capacity 894 GiB with 2 Disks as stripe in LVM
   ansible/roles/openshift-4-cluster/templates/vm.xml.j2
   ansible/roles/openshift-4-cluster/tasks/destroy-vm.yml
 ```
+https://github.com/mschindl/hetzner-ocp4-ocs4/blob/master/ansible/roles/openshift-4-cluster/defaults/main.yml
+https://github.com/mschindl/hetzner-ocp4-ocs4/blob/master/ansible/roles/openshift-4-cluster/tasks/create-vm.yml
+https://github.com/mschindl/hetzner-ocp4-ocs4/blob/master/ansible/roles/openshift-4-cluster/tasks/create.yml
+https://github.com/mschindl/hetzner-ocp4-ocs4/blob/master/ansible/roles/openshift-4-cluster/templates/vm.xml.j2
+https://github.com/mschindl/hetzner-ocp4-ocs4/blob/master/ansible/roles/openshift-4-cluster/tasks/destroy-vm.yml
+
 Additional information for OCS installation:
 https://source.redhat.com/communitiesatredhat/applications/containers-paas-community/blog/container_community_of_practice_blog/ocs_42_in_ocp_4214_upi_installation_in_rhv
 

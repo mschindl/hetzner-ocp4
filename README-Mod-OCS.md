@@ -155,7 +155,6 @@ Disk /dev/vdd: 100 GiB, 107374182400 bytes, 209715200 sectors
 
   <memory unit='KiB'>83886080</memory>
   <currentMemory unit='KiB'>83886080</currentMemory>
-  <vcpu placement='static'>12</vcpu>
 
 # hetzner-ocp4-ocs4]# ansible-playbook ansible/04-start-cluster.yml
 ```

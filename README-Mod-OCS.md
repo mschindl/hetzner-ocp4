@@ -73,7 +73,8 @@ oc label node compute-2 "topology.rook.io/rack=rack3" --overwrite
 
 # Install OCS Operator
 ![image](https://user-images.githubusercontent.com/26382876/101485266-36417a00-395b-11eb-921a-656f67732160.png)
-![image](https://user-images.githubusercontent.com/26382876/101485382-5f620a80-395b-11eb-99ad-6f0bdc7eb572.png)
+![image](https://user-images.githubusercontent.com/26382876/105815121-c3479d80-5fb2-11eb-8968-05659676ba28.png)
+
 
 ## Create first cluster service
 ```

@@ -80,3 +80,10 @@ sdn_plugin_name: OVNKubernetes
 masters_schedulable: true
 
 add_ons_enabled: false
+
+# OCS disks
+install_ocs: true
+# qemu-img image size specified.
+# #   You may use k, M, G, T, P or E suffixe
+ocs_disk_size_1: 10G
+ocs_disk_size_2: 100G
